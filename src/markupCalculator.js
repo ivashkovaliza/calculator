@@ -1,5 +1,4 @@
-export default function createHtmlForCalculator(id) {
-
+export default (id) => {
   return `<div class="calculator">
       <div class="calculator__body">
         <table id="table_${id}" class="calculator__content">
