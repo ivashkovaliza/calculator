@@ -3,44 +3,38 @@ import "./index.html";
 import createHtmlForCalculator from "./markupCalculator";
 import randomId from "./randomId"
 
-console.log(createHtmlForCalculator());
-
 let signsArray = [];
 let numbersArray = [];
 let result = 0;
 
 class Calculator {
-    constructor(elem) {
-        /*this.signsArray = [];
-        this.numbersArray = [];
-        this.result = 0;*/
-        this.elem = elem;
-        this.calculatorId = randomId();
-        this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
+  constructor(elem) {
+    /*this.signsArray = [];
+    this.numbersArray = [];
+    this.result = 0;*/
+    this.elem = elem;
+    this.calculatorId = randomId();
+    this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
 
-        document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
-        document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener)
+    document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
+    document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
 
-    }
+  }
 
     createEventListener() {
-        console.log(this.id);
-        // return document.getElementById(`table_${this.id}`).onclick = function() {
-        //
-        //     let target = event.target;
-        //
-        //     if (target.classList[0] === 'number' && document.getElementById(`output-screen_${id}`).textContent.length < 12) {
-        //         pressNumberAction(target, this.id);
-        //     }
-        //
-        //     if (target.classList[0] === 'plus') {
-        //         pressPlusAction(this.id);
-        //     }
-        //
-        //     if (target.classList[0] === 'equal-sign') {
-        //         pressEqualSignAction(this.id);
-        //     }
-        // };
+      let target = event.target;
+
+      if (target.classList[0] === 'number' && document.getElementById(`output-screen_${this.calculatorId}`).textContent.length < 12) {
+          pressNumberAction(target, this.calculatorId);
+      }
+
+      if (target.classList[0] === 'plus') {
+          pressPlusAction(this.calculatorId);
+      }
+
+      if (target.classList[0] === 'equal-sign') {
+          pressEqualSignAction(this.calculatorId);
+      }
     }
 }
 
@@ -48,7 +42,7 @@ function pressNumberAction(targetButton, id) {
   document.getElementById(`output-screen_${id}`).textContent += targetButton.textContent;
 }
 
-function sum(a, b) {
+let sum = (a, b) => {
   return a + b;
 }
 
