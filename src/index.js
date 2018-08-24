@@ -1,59 +1,51 @@
 import "./styles/styles.scss";
 import "./index.html";
 import createHtmlForCalculator from "./markupCalculator";
+import randomId from "./randomId"
+
+console.log(createHtmlForCalculator());
 
 let signsArray = [];
 let numbersArray = [];
 let result = 0;
 
-function randomId(min = 1, max = 100000000) {
-  let rand = min - 0.5 + Math.random() * (max - min + 1);
-  rand = Math.round(rand);
-  return rand;
-}
-
 class Calculator {
-  constructor(elem, where) {
-    this.elem = elem;
-    this.where = where;
-    this.calculatorId = randomId();
-    this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
+    constructor(elem) {
+        /*this.signsArray = [];
+        this.numbersArray = [];
+        this.result = 0;*/
+        this.elem = elem;
+        this.calculatorId = randomId();
+        this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
 
-    console.log(this.calculatorId);
+        document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
+        document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener)
 
-    console.log(this.htmlForCalculator);
-
-    this.elem.insertAdjacentHTML(this.where, this.htmlForCalculator);
-
-   createEventListener(this.calculatorId);
-
-  }
-
-}
-
-
-function createEventListener(id) {
-  return document.getElementById(`table_${id}`).onclick = function() {
-    console.log(id);
-    let target = event.target;
-
-    if (target.classList[0] === 'number' && document.getElementById(`output-screen_${id}`).textContent.length < 12) {
-      pressNumberAction(target, id);
     }
 
-    if (target.classList[0] === 'plus') {
-      pressPlusAction(id);
+    createEventListener() {
+        console.log(this.id);
+        // return document.getElementById(`table_${this.id}`).onclick = function() {
+        //
+        //     let target = event.target;
+        //
+        //     if (target.classList[0] === 'number' && document.getElementById(`output-screen_${id}`).textContent.length < 12) {
+        //         pressNumberAction(target, this.id);
+        //     }
+        //
+        //     if (target.classList[0] === 'plus') {
+        //         pressPlusAction(this.id);
+        //     }
+        //
+        //     if (target.classList[0] === 'equal-sign') {
+        //         pressEqualSignAction(this.id);
+        //     }
+        // };
     }
-
-    if (target.classList[0] === 'equal-sign') {
-      pressEqualSignAction(id);
-    }
-  };
 }
 
 function pressNumberAction(targetButton, id) {
   document.getElementById(`output-screen_${id}`).textContent += targetButton.textContent;
-  signsArray.splice((numbersArray.length - 2 < 0) ? 0 : numbersArray.length - 2, signsArray.length - 1);
 }
 
 function sum(a, b) {
@@ -85,8 +77,8 @@ function pressEqualSignAction(id) {
   signsArray = [];
 }
 
-new Calculator(document.body.getElementsByClassName('wrapper')[0], 'afterBegin');
-new Calculator(document.body.getElementsByClassName('wrapper')[0], 'afterBegin');
+new Calculator('.calculator-1');
+new Calculator('.calculator-2');
 
 /*function sum(a, b) {
     return a + b;
