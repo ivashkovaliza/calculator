@@ -1,5 +1,5 @@
-import "./styles/styles.scss";
-import "./index.html";
+import "../styles/styles.scss";
+import "../index.html";
 import createHtmlForCalculator from "./markupCalculator";
 import randomId from "./randomId"
 
@@ -13,11 +13,13 @@ class Calculator {
     this.numbersArray = [];
     this.result = 0;*/
     this.elem = elem;
+      console.log(this.elem);
     this.calculatorId = randomId();
+      console.log(this.calculatorId);
     this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
-
+  console.log(this.htmlForCalculator);
     document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
-    document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
+    //document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
 
   }
 
@@ -44,7 +46,7 @@ function pressNumberAction(targetButton, id) {
 
 let sum = (a, b) => {
   return a + b;
-}
+};
 
 function pressPlusAction(id) {
   signsArray.push('+');
