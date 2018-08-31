@@ -3,75 +3,77 @@ import "../index.html";
 import createHtmlForCalculator from "./markupCalculator";
 import randomId from "./randomId"
 
-let signsArray = [];
+/*let signsArray = [];
 let numbersArray = [];
-let result = 0;
+let result = 0;*/
 
 class Calculator {
   constructor(elem) {
-    /*this.signsArray = [];
+    this.signsArray = [];
     this.numbersArray = [];
-    this.result = 0;*/
+    this.result = 0;
     this.elem = elem;
-      console.log(this.elem);
     this.calculatorId = randomId();
-      console.log(this.calculatorId);
     this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
-  console.log(this.htmlForCalculator);
+
+    this.init();
+  }
+
+  init() {
     document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
-    //document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
-
+    document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
   }
 
-    createEventListener() {
-      let target = event.target;
+  createEventListener() {
+    let target = event.target;
 
-      if (target.classList[0] === 'number' && document.getElementById(`output-screen_${this.calculatorId}`).textContent.length < 12) {
-          pressNumberAction(target, this.calculatorId);
-      }
-
-      if (target.classList[0] === 'plus') {
-          pressPlusAction(this.calculatorId);
-      }
-
-      if (target.classList[0] === 'equal-sign') {
-          pressEqualSignAction(this.calculatorId);
-      }
+    if (target.classList[0] === 'number' && document.getElementById(`output-screen_${this.calculatorId}`).textContent.length < 12) {
+        this.pressNumberAction(target, this.calculatorId);
     }
-}
 
-function pressNumberAction(targetButton, id) {
-  document.getElementById(`output-screen_${id}`).textContent += targetButton.textContent;
-}
+    if (target.classList[0] === 'plus') {
+        this.pressPlusAction(this.calculatorId);
+    }
 
-let sum = (a, b) => {
-  return a + b;
-};
-
-function pressPlusAction(id) {
-  signsArray.push('+');
-  if (document.getElementById(`output-screen_${id}`).textContent !== "") {
-    numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
-  }
-
-  document.getElementById(`output-screen_${id}`).textContent = '';
-}
-
-function pressEqualSignAction(id) {
-  if (document.getElementById(`output-screen_${id}`).textContent !== "") {
-    numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
-  }
-
-  for (let i = 0; i < signsArray.length; i++ ) {
-    if (signsArray[i] === '+') {
-      result = sum(numbersArray.shift(), numbersArray.shift());
-      numbersArray.unshift(result);
+    if (target.classList[0] === 'equal-sign') {
+        this.pressEqualSignAction(this.calculatorId);
     }
   }
-  document.getElementById(`output-screen_${id}`).textContent = result;
-  numbersArray = [];
-  signsArray = [];
+
+  pressNumberAction(targetButton, id) {
+    document.getElementById(`output-screen_${id}`).textContent += targetButton.textContent;
+  }
+
+  pressPlusAction(id) {
+    this.signsArray.push('+');
+    if (document.getElementById(`output-screen_${id}`).textContent !== "") {
+      this.numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
+    }
+
+    document.getElementById(`output-screen_${id}`).textContent = '';
+  }
+
+  pressEqualSignAction(id) {
+    if (document.getElementById(`output-screen_${id}`).textContent !== "") {
+      this.numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
+    }
+
+    for (let i = 0; i < this.signsArray.length; i++ ) {
+      if (this.signsArray[i] === '+') {
+        this.result = this.sum(this.numbersArray.shift(), this.numbersArray.shift());
+        this.numbersArray.unshift(this.result);
+      }
+    }
+    document.getElementById(`output-screen_${id}`).textContent = this.result;
+    this.numbersArray = [];
+    this.signsArray = [];
+  }
+
+  sum(a, b) {
+    return a + b;
+  }
 }
+
 
 new Calculator('.calculator-1');
 new Calculator('.calculator-2');

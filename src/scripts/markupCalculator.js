@@ -1,4 +1,4 @@
-export default (id) => {
+export default (id) =>
   `<div class="calculator">
     <div class="calculator__body">
       <table id="table_${id}" class="calculator__content">
@@ -46,4 +46,3 @@ export default (id) => {
       </table>
     </div>
    </div>`;
-}
