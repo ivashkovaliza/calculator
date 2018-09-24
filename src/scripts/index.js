@@ -1,92 +1,82 @@
-import "./styles/styles.scss";
-import "./index.html";
+import "../styles/styles.scss";
+import "../index.html";
 import createHtmlForCalculator from "./markupCalculator";
+import randomId from "./randomId"
 
-let signsArray = [];
+/*let signsArray = [];
 let numbersArray = [];
-let result = 0;
-
-function randomId(min = 1, max = 100000000) {
-  let rand = min - 0.5 + Math.random() * (max - min + 1);
-  rand = Math.round(rand);
-  return rand;
-}
+let result = 0;*/
 
 class Calculator {
-  constructor(elem, where) {
+  constructor(elem) {
+    this.signsArray = [];
+    this.numbersArray = [];
+    this.result = 0;
     this.elem = elem;
-    this.where = where;
     this.calculatorId = randomId();
     this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
 
-    console.log(this.calculatorId);
-
-    console.log(this.htmlForCalculator);
-
-    this.elem.insertAdjacentHTML(this.where, this.htmlForCalculator);
-
-   createEventListener(this.calculatorId);
-
+    this.init();
   }
 
-}
+  init() {
+    document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
+    document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
+  }
 
-
-function createEventListener(id) {
-  return document.getElementById(`table_${id}`).onclick = function() {
-    console.log(id);
+  createEventListener() {
     let target = event.target;
 
-    if (target.classList[0] === 'number' && document.getElementById(`output-screen_${id}`).textContent.length < 12) {
-      pressNumberAction(target, id);
+    if (target.classList[0] === 'number' && document.getElementById(`output-screen_${this.calculatorId}`).textContent.length < 12) {
+        this.pressNumberAction(target, this.calculatorId);
     }
 
     if (target.classList[0] === 'plus') {
-      pressPlusAction(id);
+        this.pressPlusAction(this.calculatorId);
     }
 
     if (target.classList[0] === 'equal-sign') {
-      pressEqualSignAction(id);
-    }
-  };
-}
-
-function pressNumberAction(targetButton, id) {
-  document.getElementById(`output-screen_${id}`).textContent += targetButton.textContent;
-  signsArray.splice((numbersArray.length - 2 < 0) ? 0 : numbersArray.length - 2, signsArray.length - 1);
-}
-
-function sum(a, b) {
-  return a + b;
-}
-
-function pressPlusAction(id) {
-  signsArray.push('+');
-  if (document.getElementById(`output-screen_${id}`).textContent !== "") {
-    numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
-  }
-
-  document.getElementById(`output-screen_${id}`).textContent = '';
-}
-
-function pressEqualSignAction(id) {
-  if (document.getElementById(`output-screen_${id}`).textContent !== "") {
-    numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
-  }
-
-  for (let i = 0; i < signsArray.length; i++ ) {
-    if (signsArray[i] === '+') {
-      result = sum(numbersArray.shift(), numbersArray.shift());
-      numbersArray.unshift(result);
+        this.pressEqualSignAction(this.calculatorId);
     }
   }
-  document.getElementById(`output-screen_${id}`).textContent = result;
-  numbersArray = [];
-  signsArray = [];
+
+  pressNumberAction(targetButton, id) {
+    document.getElementById(`output-screen_${id}`).textContent += targetButton.textContent;
+  }
+
+  pressPlusAction(id) {
+    this.signsArray.push('+');
+    if (document.getElementById(`output-screen_${id}`).textContent !== "") {
+      this.numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
+    }
+
+    document.getElementById(`output-screen_${id}`).textContent = '';
+  }
+
+  pressEqualSignAction(id) {
+    if (document.getElementById(`output-screen_${id}`).textContent !== "") {
+      this.numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
+    }
+
+    for (let i = 0; i < this.signsArray.length; i++ ) {
+      if (this.signsArray[i] === '+') {
+        this.result = this.sum(this.numbersArray.shift(), this.numbersArray.shift());
+        this.numbersArray.unshift(this.result);
+      }
+    }
+    document.getElementById(`output-screen_${id}`).textContent = this.result;
+    this.numbersArray = [];
+    this.signsArray = [];
+  }
+
+  sum(a, b) {
+    return a + b;
+  }
 }
 
-new Calculator(document.body.getElementsByClassName('wrapper')[0], 'afterBegin');
-new Calculator(document.body.getElementsByClassName('wrapper')[0], 'afterBegin');
+
+new Calculator('.calculator-1');
+new Calculator('.calculator-2');
 
 /*function sum(a, b) {
     return a + b;
