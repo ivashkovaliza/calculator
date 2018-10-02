@@ -11,6 +11,7 @@ class Calculator {
   constructor(elem) {
     this.signsArray = [];
     this.numbersArray = [];
+    this.oneNumber = "";
     this.result = 0;
     this.elem = elem;
     this.calculatorId = randomId();
@@ -27,7 +28,7 @@ class Calculator {
   createEventListener() {
     let target = event.target;
 
-    if (target.classList[0] === 'number' && document.getElementById(`output-screen_${this.calculatorId}`).textContent.length < 12) {
+    if (target.classList[0] === 'number' && this.oneNumber.length < 12) {
         this.pressNumberAction(target, this.calculatorId);
     }
 
@@ -38,35 +39,62 @@ class Calculator {
     if (target.classList[0] === 'equal-sign') {
         this.pressEqualSignAction(this.calculatorId);
     }
+
+    if (target.classList[0] === 'clear') {
+        this.pressClearAction(this.calculatorId);
+    }
   }
 
   pressNumberAction(targetButton, id) {
-    document.getElementById(`output-screen_${id}`).textContent += targetButton.textContent;
+      console.log(this.numbersArray.length);
+      console.log(this.signsArray.length);
+    if(this.result !== 0 && this.result === this.oneNumber) {
+        this.oneNumber = "";
+    }
+    this.oneNumber += targetButton.textContent;
+
+    console.log(this.oneNumber);
+    document.querySelector(`#output-screen_${id}`).textContent = Number(this.oneNumber).toLocaleString();
   }
 
   pressPlusAction(id) {
-    this.signsArray.push('+');
-    if (document.getElementById(`output-screen_${id}`).textContent !== "") {
-      this.numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
-    }
+    if(this.oneNumber) {
+      this.signsArray.push('+');
+      this.numbersArray.push(Number(this.oneNumber));
 
-    document.getElementById(`output-screen_${id}`).textContent = '';
+      this.oneNumber = "";
+      console.log(this.signsArray);
+      console.log(this.numbersArray);
+    }
+  }
+
+  pressClearAction(id) {
+      document.getElementById(`output-screen_${id}`).textContent = '';
+      this.signsArray = [];
+      this.numbersArray = [];
+      this.oneNumber = "";
+      this.result = 0;
   }
 
   pressEqualSignAction(id) {
-    if (document.getElementById(`output-screen_${id}`).textContent !== "") {
-      this.numbersArray.push(Number(document.getElementById(`output-screen_${id}`).textContent));
-    }
+      if(this.oneNumber) {
+          this.numbersArray.push(Number(this.oneNumber));
 
+          this.oneNumber = "";
+          console.log(this.signsArray);
+          console.log(this.numbersArray);
+      }
     for (let i = 0; i < this.signsArray.length; i++ ) {
       if (this.signsArray[i] === '+') {
         this.result = this.sum(this.numbersArray.shift(), this.numbersArray.shift());
         this.numbersArray.unshift(this.result);
       }
     }
+
     document.getElementById(`output-screen_${id}`).textContent = this.result;
-    this.numbersArray = [];
-    this.signsArray = [];
+      this.signsArray = [];
+      this.numbersArray = [];
+      this.oneNumber = this.result;
   }
 
   sum(a, b) {

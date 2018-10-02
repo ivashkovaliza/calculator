@@ -24,13 +24,13 @@ body {
 .calculator {
   margin: 7px;
   box-shadow: 0 5px 14px 0 black;
-  width: 250px;
+  width: 280px;
   height: 340px;
   border-radius: 30px;
 
   &__body {
     background-color: $calculator-body;
-    width: 251px;
+    width: 280px;
     height: 341px;
     border-radius: 30px;
     box-shadow: 0 -5px 0 0 #c33e39 inset;
@@ -43,7 +43,7 @@ body {
     font-size: 25px;
     text-align: right;
     height: 45px;
-    min-width: 220px;
+    min-width: 250px;
     border-radius: 10px;
     background-color: white;
     border: solid 4px white;
@@ -56,23 +56,26 @@ body {
     }
   }
 
-  &__buttons {
-    color: white;
-  }
-
   &__button {
-    width: 40px;
+    font-family: 'Varela Round', sans-serif;
+    font-weight: bold;
+    color: white;
+    border: none;
+    width: 100%;
     height: 32px;
     text-align: center;
     border-radius: 10px;
     background-color: #2f4958;
     box-shadow: 0 -5px 0 0 #202c3c inset;
-    cursor: pointer;
     text-transform: uppercase;
 
     &:hover {
       background-color: #476676;
       box-shadow: 0 -5px 0 0 #334050 inset;
+    }
+
+    &--high-btn {
+      height: 73px;
     }
 
     &::selection {
@@ -83,5 +86,4 @@ body {
   &__content {
     border-spacing: 8px;
   }
-
 }
