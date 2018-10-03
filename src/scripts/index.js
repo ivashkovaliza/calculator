@@ -54,7 +54,7 @@ class Calculator {
     this.oneNumber += targetButton.textContent;
 
     console.log(this.oneNumber);
-    document.querySelector(`#output-screen_${id}`).textContent = Number(this.oneNumber).toLocaleString();
+    document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
   pressPlusAction(id) {
@@ -91,7 +91,12 @@ class Calculator {
       }
     }
 
-    document.getElementById(`output-screen_${id}`).textContent = this.result;
+    if (this.result > 12) {
+      console.log(this.result.toString().length);
+      this.result = this.result.toString().slice(0,10) + "e" + (this.result.toString().length-10);
+    }
+
+    document.getElementById(`output-screen_${id}`).textContent = "9999999999e9";//this.result;
       this.signsArray = [];
       this.numbersArray = [];
       this.oneNumber = this.result;

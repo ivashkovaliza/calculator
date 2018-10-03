@@ -24,13 +24,13 @@ body {
 .calculator {
   margin: 7px;
   box-shadow: 0 5px 14px 0 black;
-  width: 280px;
+  width: 250px;
   height: 340px;
   border-radius: 30px;
 
   &__body {
     background-color: $calculator-body;
-    width: 280px;
+    width: 250px;
     height: 341px;
     border-radius: 30px;
     box-shadow: 0 -5px 0 0 #c33e39 inset;
@@ -43,7 +43,7 @@ body {
     font-size: 25px;
     text-align: right;
     height: 45px;
-    min-width: 250px;
+    min-width: 220px;
     border-radius: 10px;
     background-color: white;
     border: solid 4px white;
@@ -57,6 +57,7 @@ body {
   }
 
   &__button {
+    outline-color: #2f4958;
     font-family: 'Varela Round', sans-serif;
     font-weight: bold;
     color: white;
