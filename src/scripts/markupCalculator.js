@@ -17,14 +17,14 @@ export default (id) =>
           <tr>
             <td><button class="clear calculator__button">C</button></td>
             <td><button class="calculator__button">±</button></td>
-            <td><button class="calculator__button">÷</button></td>
+            <td><button class="divide calculator__button">÷</button></td>
             <td><button class="multiply calculator__button">×</button></td>
           </tr>
           <tr>
             <td><button class="number calculator__button">7</button></td>
             <td><button class="number calculator__button">8</button></td>
             <td><button class="number calculator__button">9</button></td>
-            <td><button class="calculator__button">-</button></td>
+            <td><button class="subtraction calculator__button">-</button></td>
           </tr>
           <tr>
             <td><button class="number calculator__button">4</button></td>
