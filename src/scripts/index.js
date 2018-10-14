@@ -24,29 +24,29 @@ class Calculator {
   createEventListener() {
     let target = event.target;
 
-    if (target.classList[0] === 'number' && this.oneNumber.length < 12) {
+    if (target.classList.contains('number') && this.oneNumber.length < 12) {
         this.pressNumberAction(target, this.calculatorId);
     }
 
-    if (target.classList[0] === 'plus') {
+    if (target.classList.contains('plus')) {
         this.pressPlusAction();
     }
-    if (target.classList[0] === 'subtraction') {
+    if (target.classList.contains('subtraction')) {
       this.pressSubtractionAction();
     }
 
-    if (target.classList[0] === 'multiply') {
+    if (target.classList.contains('multiply')) {
         this.pressMultiplyAction();
     }
-    if (target.classList[0] === 'divide') {
+    if (target.classList.contains('divide')) {
       this.pressDivideAction();
     }
 
-    if (target.classList[0] === 'equal-sign') {
+    if (target.classList.contains('equal-sign')) {
         this.pressEqualSignAction(this.calculatorId);
     }
 
-    if (target.classList[0] === 'clear') {
+    if (target.classList.contains('clear')) {
         this.pressClearAction(this.calculatorId);
     }
   }

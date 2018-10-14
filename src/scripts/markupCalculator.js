@@ -9,38 +9,38 @@ export default (id) =>
         </thead>
         <tbody>
           <tr>
-            <td><button class="calculator__button">MC</button></td>
-            <td><button class="calculator__button">M+</button></td>
-            <td><button class="calculator__button">M-</button></td>
-            <td><button class="calculator__button">MR</button></td>
+            <td><button class="calculator__button" value="MC">MC</button></td>
+            <td><button class="calculator__button" value="M+">M+</button></td>
+            <td><button class="calculator__button" value="M-">M-</button></td>
+            <td><button class="calculator__button" value="MR">MR</button></td>
           </tr>
           <tr>
-            <td><button class="clear calculator__button">C</button></td>
-            <td><button class="calculator__button">±</button></td>
-            <td><button class="divide calculator__button">÷</button></td>
-            <td><button class="multiply calculator__button">×</button></td>
+            <td><button class="clear calculator__button" value="C">C</button></td>
+            <td><button class="calculator__button" value="±">±</button></td>
+            <td><button class="divide calculator__button" value="÷">÷</button></td>
+            <td><button class="multiply calculator__button" value="×">×</button></td>
           </tr>
           <tr>
-            <td><button class="number calculator__button">7</button></td>
-            <td><button class="number calculator__button">8</button></td>
-            <td><button class="number calculator__button">9</button></td>
-            <td><button class="subtraction calculator__button">-</button></td>
+            <td><button class="number calculator__button" value="7">7</button></td>
+            <td><button class="number calculator__button" value="8">8</button></td>
+            <td><button class="number calculator__button" value="9">9</button></td>
+            <td><button class="subtraction calculator__button" value="-">-</button></td>
           </tr>
           <tr>
-            <td><button class="number calculator__button">4</button></td>
-            <td><button class="number calculator__button">5</button></td>
-            <td><button class="number calculator__button">6</button></td>
-            <td><button class="plus calculator__button">+</button></td>
+            <td><button class="number calculator__button" value="4">4</button></td>
+            <td><button class="number calculator__button" value="5">5</button></td>
+            <td><button class="number calculator__button" value="6">6</button></td>
+            <td><button class="plus calculator__button" value="=">+</button></td>
           </tr>
           <tr>
-            <td><button class="number calculator__button">1</button></td>
-            <td><button class="number calculator__button">2</button></td>
-            <td><button class="number calculator__button">3</button></td>
-            <td rowspan="2"><button class="equal-sign calculator__button calculator__button--high-btn">=</button></td>
+            <td><button class="number calculator__button" value="1">1</button></td>
+            <td><button class="number calculator__button" value="2">2</button></td>
+            <td><button class="number calculator__button" value="3">3</button></td>
+            <td rowspan="2"><button class="equal-sign calculator__button calculator__button--high-btn" value="=">=</button></td>
           </tr>
           <tr>
-            <td colspan="2"><button class="number calculator__button">0</button></td>
-            <td><button class="calculator__button">.</button></td>
+            <td colspan="2"><button class="number calculator__button" value="0">0</button></td>
+            <td><button class="calculator__button" value=".">.</button></td>
           </tr>
         </tbody>
       </table>
