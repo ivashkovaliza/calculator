@@ -21,10 +21,13 @@ class Calculator {
     document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
   }
 
-  createEventListener() {
+  createEventListener(event) {
     let target = event.target;
-
-    if (target.classList.contains('number') && this.oneNumber.length < 12) {
+    console.log(target);
+    //debugger
+    console.log(this.oneNumber.length);
+    if (target.classList.contains('number') && this.oneNumber.toString().length < 12) {
+      console.log("liza");
         this.pressNumberAction(target, this.calculatorId);
     }
 
@@ -51,18 +54,18 @@ class Calculator {
     }
   }
 
-  pressNumberAction(targetButton, id) {
-      if(this.signsArray.length !== this.numbersArray.length) { //debugger
+  pressNumberAction(targetButton, id) { //debugger
+      if(this.signsArray.length !== this.numbersArray.length) {  
           this.signsArray.splice(this.numbersArray.length - 1,this.signsArray.length - this.numbersArray.length);
       }
       console.log(this.numbersArray.length);
       console.log(this.signsArray.length);
-    if(this.result !== 0 && this.result === this.oneNumber) {
+    if(this.result == this.oneNumber) {
         this.oneNumber = "";
     }
-    this.oneNumber += targetButton.textContent;
+    this.oneNumber += targetButton.value;
 
-    console.log(this.oneNumber);
+    console.log(this.oneNumber +"liza");
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
@@ -160,7 +163,7 @@ class Calculator {
         if(this.result > 9999999999e9 || this.result < -9999999999e9) { //bug for negative numbers and numbers with a comma
             this.result = "value exceeded";
         } else {
-            this.result = this.result.toString().slice(0,10) + "e" + (this.result.toString().length-10);
+            this.result = this.result.toExponential();
         }
 
 
