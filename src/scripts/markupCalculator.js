@@ -16,7 +16,7 @@ export default (id) =>
           </tr>
           <tr>
             <td><button class="clear calculator__button" value="C">C</button></td>
-            <td><button class="calculator__button" value="±">±</button></td>
+            <td><button class="reversion-sign calculator__button" value="±">±</button></td>
             <td><button class="divide calculator__button" value="÷">÷</button></td>
             <td><button class="multiply calculator__button" value="×">×</button></td>
           </tr>
@@ -40,7 +40,7 @@ export default (id) =>
           </tr>
           <tr>
             <td colspan="2"><button class="number calculator__button" value="0">0</button></td>
-            <td><button class="calculator__button" value=".">.</button></td>
+            <td><button class="dot calculator__button" value=".">.</button></td>
           </tr>
         </tbody>
       </table>
