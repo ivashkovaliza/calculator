@@ -9,6 +9,7 @@ class Calculator {
     this.numbersArray = [];
     this.oneNumber = "";
     this.result = "";
+    this.memory = 0;
     this.elem = elem;
     this.calculatorId = randomId();
     this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
@@ -61,6 +62,22 @@ class Calculator {
     if (target.classList.contains('reversion-sign')) {
       this.pressRevertSignAction(this.calculatorId);
     }
+
+    if (target.classList.contains('memory-plus')) {
+      this.pressMemoryPlusAction();
+    }
+
+    if (target.classList.contains('memory-minus')) {
+      this.pressMemoryMinusAction();
+    }
+
+    if (target.classList.contains('memory-read')) {
+      this.pressMemoryReadAction(this.calculatorId);
+    }
+
+    if (target.classList.contains('memory-clear')) {
+      this.pressMemoryClearAction(this.calculatorId);
+    }
   }
 
   pressNumberAction(targetButton, id) { //debugger
@@ -72,20 +89,31 @@ class Calculator {
     if(this.result === this.oneNumber) {
         this.oneNumber = "";
         this.result = '';
+    } 
+    
+    if(this.oneNumber[0] === "0" && this.oneNumber.length === 1 && targetButton.value === "0") {
+      this.oneNumber += ""; 
+    } else {
+      if(this.oneNumber[0] === "0" && this.oneNumber.length === 1 && this.oneNumber[1] !== ".") {
+        this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
+      }
+      this.oneNumber += targetButton.value;
     }
-    if(this.oneNumber[0] === "0" && targetButton.value === 0) {
-      this.oneNumber;
-    }
-    this.oneNumber += targetButton.value;
 
+    
+    
     console.log(this.oneNumber);
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
-  pressDotAction(targetButton, id) {
-
-    this.oneNumber += targetButton.value;
-
+  pressDotAction(targetButton, id) { 
+    if(this.result === this.oneNumber) {
+      this.oneNumber = "";
+    }  
+    
+    if(this.oneNumber.indexOf(".") < 0) {
+      this.oneNumber += targetButton.value;
+    }
     console.log(this.oneNumber);
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
@@ -149,14 +177,38 @@ class Calculator {
   }
 
   pressRevertSignAction(id) {
-    console.log("revert");
     if(this.oneNumber > 0) {
       this.oneNumber = "-" + this.oneNumber;
-      console.log(this.oneNumber);
     } else {
       this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
     }
+
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
+  }
+
+  pressMemoryPlusAction() {
+    this.memory = this.oneNumber; 
+
+    console.log(this.memory) 
+    this.oneNumber = "";   
+  }
+
+  pressMemoryMinusAction() {
+    this.memory -= this.oneNumber; 
+
+    console.log(this.memory) 
+    this.oneNumber = "";   
+  }
+
+  pressMemoryReadAction(id) {
+    this.oneNumber = this.memory;
+
+    console.log(this.oneNumber) 
+    document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
+  }
+
+  pressMemoryClearAction() {
+    this.memory = 0;
   }
 
   pressEqualSignAction(id) {

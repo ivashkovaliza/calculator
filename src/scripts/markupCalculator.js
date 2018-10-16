@@ -9,10 +9,10 @@ export default (id) =>
         </thead>
         <tbody>
           <tr>
-            <td><button class="calculator__button" value="MC">MC</button></td>
-            <td><button class="calculator__button" value="M+">M+</button></td>
-            <td><button class="calculator__button" value="M-">M-</button></td>
-            <td><button class="calculator__button" value="MR">MR</button></td>
+            <td><button class="memory-clear calculator__button" value="MC">MC</button></td>
+            <td><button class="memory-plus calculator__button" value="M+">M+</button></td>
+            <td><button class="memory-minus calculator__button" value="M-">M-</button></td>
+            <td><button class="memory-read calculator__button" value="MR">MR</button></td>
           </tr>
           <tr>
             <td><button class="clear calculator__button" value="C">C</button></td>
