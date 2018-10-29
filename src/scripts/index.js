@@ -23,10 +23,23 @@ class Calculator {
     document.querySelector(`#output-screen_${this.calculatorId}`).textContent = "0";
   }
 
+  createKeyboardEventListener() {
+    console.log("liza");
+
+  /*let chr = e.key;
+
+  if (chr < '0' || chr > '9') {
+    return false;
+  } else {
+
+  }
+    console.log(event.key + "----" + event.charCode);*/
+  }
+
   createEventListener(event) {
     let target = event.target;
     console.log(target);
-    //debugger
+  
     console.log(this.oneNumber.length);
     if (target.classList.contains('number') && this.oneNumber.toString().length < 12) {
       console.log("liza");
@@ -279,3 +292,17 @@ class Calculator {
 
 new Calculator('.calculator-1');
 new Calculator('.calculator-2');
+
+document.addEventListener("keypress", createKeyboardEventListener);
+
+function createKeyboardEventListener() {
+
+let chr = e.key;
+
+if (chr < '0' || chr > '9') {
+  return false;
+} else {
+    
+}
+  console.log(event.key + "----" + event.charCode);
+}
