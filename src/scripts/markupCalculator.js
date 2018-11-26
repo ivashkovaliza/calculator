@@ -1,4 +1,4 @@
-export default (id) =>
+export default (id, memoryLabel) =>
   `<div class="calculator">
     <div class="calculator__body">
       <table id="table_${id}" class="calculator__content">
@@ -8,6 +8,9 @@ export default (id) =>
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td id="output-memory_${id}" class="memory-value" colspan="4">${memoryLabel}</td>
+          </tr>
           <tr>
             <td><button class="memory-clear calculator__button" value="MC">MC</button></td>
             <td><button class="memory-plus calculator__button" value="M+">M+</button></td>

@@ -12,7 +12,8 @@ class Calculator {
     this.memory = 0;
     this.elem = elem;
     this.calculatorId = randomId();
-    this.htmlForCalculator = createHtmlForCalculator(this.calculatorId);
+    this.memoryLabel = "Memory: ";
+    this.htmlForCalculator = createHtmlForCalculator(this.calculatorId, this.memoryLabel);
 
     this.init();
   }
@@ -77,11 +78,11 @@ class Calculator {
     }
 
     if (target.classList.contains('memory-plus')) {
-      this.pressMemoryPlusAction();
+      this.pressMemoryPlusAction(this.calculatorId);
     }
 
     if (target.classList.contains('memory-minus')) {
-      this.pressMemoryMinusAction();
+      this.pressMemoryMinusAction(this.calculatorId);
     }
 
     if (target.classList.contains('memory-read')) {
@@ -199,10 +200,12 @@ class Calculator {
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
-  pressMemoryPlusAction() {
-    this.memory = this.oneNumber; 
+  pressMemoryPlusAction(id) {
+    this.memory = this.memory + (+this.oneNumber); 
+    console.log(document.querySelector(`#output-memory_${id}`).textContent);
+    document.querySelector(`#output-memory_${id}`).textContent = this.memoryLabel + this.memory;
 
-    console.log(this.memory) 
+    console.log(this.memory); 
     this.oneNumber = "";   
   }
 
@@ -220,8 +223,9 @@ class Calculator {
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
-  pressMemoryClearAction() {
+  pressMemoryClearAction(id) {
     this.memory = 0;
+    document.querySelector(`#output-memory_${id}`).textContent = this.memoryLabel;
   }
 
   pressEqualSignAction(id) {
