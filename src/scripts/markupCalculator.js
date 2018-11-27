@@ -1,7 +1,7 @@
 export default (id, memoryLabel) =>
-  `<div class="calculator">
+  `<div id="table_${id}" class="calculator" tabindex="0">
     <div class="calculator__body">
-      <table id="table_${id}" class="calculator__content">
+      <table class="calculator__content">
         <thead>
           <tr>
             <th id="output-screen_${id}" colspan="4" class="calculator__output-screen"></th>

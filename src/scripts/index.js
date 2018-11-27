@@ -21,20 +21,30 @@ class Calculator {
   init() {
     document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
     document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
+    document.querySelector(`#table_${this.calculatorId}`).addEventListener('focus', this.createFocusEventListener.bind(this));
     document.querySelector(`#output-screen_${this.calculatorId}`).textContent = "0";
   }
 
-  createKeyboardEventListener() {
-    console.log("liza");
+  createKeyboardEventListener(event) {
+    console.log("liza-key");
 
-  /*let chr = e.key;
+    let chr = event.key;
 
-  if (chr < '0' || chr > '9') {
-    return false;
-  } else {
+    if (chr > '0' || chr < '9') {
+      this.keypressNumberAction(chr, this.calculatorId);
+    } 
+    if (chr === '+') {
+      this.pressPlusAction();
+    }
 
+    if (chr === '=' || 'Enter') {
+      this.pressEqualSignAction();
+    }
+    console.log(event.key + "----" + event.charCode);
   }
-    console.log(event.key + "----" + event.charCode);*/
+
+  createFocusEventListener(event) {
+    document.querySelector(`#table_${this.calculatorId}:focus`).addEventListener('keypress', this.createKeyboardEventListener.bind(this));
   }
 
   createEventListener(event) {
@@ -42,8 +52,8 @@ class Calculator {
     console.log(target);
   
     console.log(this.oneNumber.length);
-    if (target.classList.contains('number') && this.oneNumber.toString().length < 12) {
-      console.log("liza");
+  
+    if ((target.classList.contains('number')) && this.oneNumber.toString().length < 12) {
       this.pressNumberAction(target, this.calculatorId);
     }
 
@@ -112,9 +122,31 @@ class Calculator {
         this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
       }
       this.oneNumber += targetButton.value;
-    }
-
+    }    
     
+    console.log(this.oneNumber);
+    document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
+  }
+
+  keypressNumberAction(chr, id) { //debugger
+    if(this.signsArray.length !== this.numbersArray.length) {
+        this.signsArray.splice(this.numbersArray.length - 1,this.signsArray.length - this.numbersArray.length);
+    }
+    console.log(this.numbersArray.length);
+    console.log(this.signsArray.length);
+    if(this.result === this.oneNumber) {
+        this.oneNumber = "";
+        this.result = '';
+    } 
+    
+    if(this.oneNumber[0] === "0" && this.oneNumber.length === 1 && char === "0") {
+      this.oneNumber += ""; 
+    } else {
+      if(this.oneNumber[0] === "0" && this.oneNumber.length === 1 && this.oneNumber[1] !== ".") {
+        this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
+      }
+      this.oneNumber += chr;
+    }    
     
     console.log(this.oneNumber);
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
@@ -201,25 +233,20 @@ class Calculator {
   }
 
   pressMemoryPlusAction(id) {
-    this.memory = this.memory + (+this.oneNumber); 
-    console.log(document.querySelector(`#output-memory_${id}`).textContent);
+    this.memory = this.memory + ( + document.querySelector(`#output-screen_${id}`).textContent); 
     document.querySelector(`#output-memory_${id}`).textContent = this.memoryLabel + this.memory;
-
-    console.log(this.memory); 
     this.oneNumber = "";   
   }
 
-  pressMemoryMinusAction() {
-    this.memory -= this.oneNumber; 
-
-    console.log(this.memory) 
+  pressMemoryMinusAction(id) {
+    this.memory = this.memory - document.querySelector(`#output-screen_${id}`).textContent; 
+    document.querySelector(`#output-memory_${id}`).textContent = this.memoryLabel + this.memory;
     this.oneNumber = "";   
   }
 
   pressMemoryReadAction(id) {
+    console.log("memory----  " + this.memory);
     this.oneNumber = this.memory;
-
-    console.log(this.oneNumber) 
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
@@ -233,6 +260,17 @@ class Calculator {
         this.numbersArray.push(Number(this.oneNumber));
 
         this.oneNumber = "";
+    }
+    if(this.numbersArray.length === 1) {
+      this.result = this.numbersArray[0];
+      document.getElementById(`output-screen_${id}`).textContent = this.result;
+
+      console.log("Hi!!!!");
+
+      this.signsArray = [];
+      this.numbersArray = [];
+      this.oneNumber = this.result;
+      return;
     }
     if(this.signsArray.length >= this.numbersArray.length) {
         this.signsArray.length = this.numbersArray.length - 1;
@@ -266,8 +304,6 @@ class Calculator {
         }
     }
 
-
-
     document.getElementById(`output-screen_${id}`).textContent = this.result;
 
     console.log("Hi!!!!");
@@ -297,16 +333,3 @@ class Calculator {
 new Calculator('.calculator-1');
 new Calculator('.calculator-2');
 
-document.addEventListener("keypress", createKeyboardEventListener);
-
-function createKeyboardEventListener() {
-
-let chr = e.key;
-
-if (chr < '0' || chr > '9') {
-  return false;
-} else {
-    
-}
-  console.log(event.key + "----" + event.charCode);
-}
