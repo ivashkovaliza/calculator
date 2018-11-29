@@ -1,13 +1,16 @@
-export default (id) =>
-  `<div class="calculator">
+export default (id, memoryLabel) =>
+  `<div id="calculator_${id}" class="calculator" tabindex="0">
     <div class="calculator__body">
-      <table id="table_${id}" class="calculator__content">
+      <table class="calculator__content">
         <thead>
           <tr>
             <th id="output-screen_${id}" colspan="4" class="calculator__output-screen"></th>
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td id="output-memory_${id}" class="memory-value" colspan="4">${memoryLabel}</td>
+          </tr>
           <tr>
             <td><button class="memory-clear calculator__button" value="MC">MC</button></td>
             <td><button class="memory-plus calculator__button" value="M+">M+</button></td>
