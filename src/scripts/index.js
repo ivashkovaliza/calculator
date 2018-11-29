@@ -27,20 +27,37 @@ class Calculator {
 
   createKeyboardEventListener(event) {
     console.log("liza-key");
-
+    const validKeys= ['0','1','2','3','4','5','6','7','8','9','.','Enter','/','*','-','+'];
     let chr = event.key;
-
-    if (chr > '0' || chr < '9') {
-      this.keypressNumberAction(chr, this.calculatorId);
-    } 
-    if (chr === '+') {
-      this.pressPlusAction();
+    console.log(chr);
+    if (validKeys.includes(event.key)) {
+      console.log("true");
+      if (chr > '0' && chr < '9') {
+        if (this.oneNumber.toString().length < 12) {
+          this.pressNumberAction('',this.calculatorId, chr);
+        }
+      }      
+      if (chr === '.') {
+        this.pressDotAction('',this.calculatorId, chr);
+      }
+      if (chr === '+') {
+        this.pressPlusAction();
+      }
+      if (chr === '-') {
+        this.pressSubtractionAction();
+      }
+      if (chr === '*') {
+        this.pressMultiplyAction();
+      }
+      if (chr === '/') {
+        this.pressDivideAction();
+      }
+      if (chr === '=' || chr ==='Enter') {
+        this.pressEqualSignAction(this.calculatorId);
+      }
+    } else {
+      return false;
     }
-
-    if (chr === '=' || 'Enter') {
-      this.pressEqualSignAction();
-    }
-    console.log(event.key + "----" + event.charCode);
   }
 
   createFocusEventListener(event) {
@@ -104,126 +121,86 @@ class Calculator {
     }
   }
 
-  pressNumberAction(targetButton, id) { //debugger
-    if(this.signsArray.length !== this.numbersArray.length) {
+  pressNumberAction(targetButton, id, targetKeybordButton) {
+    console.log('work');
+    if (this.signsArray.length !== this.numbersArray.length) {
         this.signsArray.splice(this.numbersArray.length - 1,this.signsArray.length - this.numbersArray.length);
     }
-    console.log(this.numbersArray.length);
-    console.log(this.signsArray.length);
-    if(this.result === this.oneNumber) {
+    
+    if (this.result === this.oneNumber) {
         this.oneNumber = "";
         this.result = '';
     } 
     
-    if(this.oneNumber[0] === "0" && this.oneNumber.length === 1 && targetButton.value === "0") {
+    if (this.oneNumber[0] === "0" && this.oneNumber.length === 1 && (targetButton.value === "0" || targetKeybordButton === "0")) {
       this.oneNumber += ""; 
     } else {
-      if(this.oneNumber[0] === "0" && this.oneNumber.length === 1 && this.oneNumber[1] !== ".") {
+      if (this.oneNumber[0] === "0" && this.oneNumber.length === 1 && this.oneNumber[1] !== ".") {
         this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
       }
-      this.oneNumber += targetButton.value;
+      this.oneNumber += targetButton.value || targetKeybordButton;
+      console.log('test' + this.oneNumber);
     }    
     
-    console.log(this.oneNumber);
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
-  keypressNumberAction(chr, id) { //debugger
-    if(this.signsArray.length !== this.numbersArray.length) {
-        this.signsArray.splice(this.numbersArray.length - 1,this.signsArray.length - this.numbersArray.length);
-    }
-    console.log(this.numbersArray.length);
-    console.log(this.signsArray.length);
-    if(this.result === this.oneNumber) {
-        this.oneNumber = "";
-        this.result = '';
-    } 
-    
-    if(this.oneNumber[0] === "0" && this.oneNumber.length === 1 && char === "0") {
-      this.oneNumber += ""; 
-    } else {
-      if(this.oneNumber[0] === "0" && this.oneNumber.length === 1 && this.oneNumber[1] !== ".") {
-        this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
-      }
-      this.oneNumber += chr;
-    }    
-    
-    console.log(this.oneNumber);
-    document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
-  }
-
-  pressDotAction(targetButton, id) { 
-    if(this.result === this.oneNumber) {
+  pressDotAction(targetButton, id, targetKeybordButton) { 
+    if (this.result === this.oneNumber) {
       this.oneNumber = "";
     }  
     
-    if(this.oneNumber.indexOf(".") < 0) {
-      this.oneNumber += targetButton.value;
+    if (this.oneNumber.indexOf(".") < 0) {
+      this.oneNumber += targetButton.value || targetKeybordButton;
     }
     console.log(this.oneNumber);
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
   pressPlusAction() {
-    if(this.oneNumber) {
-
+    if (this.oneNumber) {
       this.numbersArray.push(Number(this.oneNumber));
-
       this.oneNumber = "";
-
     }
+
     this.signsArray.push('+');
-      console.log(this.signsArray);
-      console.log(this.numbersArray);
   }
 
   pressSubtractionAction() {
-    if(this.oneNumber) {
-
+    if (this.oneNumber) {
       this.numbersArray.push(Number(this.oneNumber));
-
       this.oneNumber = "";
-
     }
+
     this.signsArray.push('-');
-      console.log(this.signsArray);
-      console.log(this.numbersArray);
   }
 
   pressMultiplyAction() {
-      if(this.oneNumber) {
-          this.numbersArray.push(Number(this.oneNumber));
-
-          this.oneNumber = "";
-
-      }
-      this.signsArray.push('*');
-      console.log(this.signsArray);
-      console.log(this.numbersArray);
+    if (this.oneNumber) {
+        this.numbersArray.push(Number(this.oneNumber));
+        this.oneNumber = "";
+    }
+    this.signsArray.push('*');
   }
 
   pressDivideAction() {
-    if(this.oneNumber) {
+    if (this.oneNumber) {
         this.numbersArray.push(Number(this.oneNumber));
-
         this.oneNumber = "";
-
     }
     this.signsArray.push('/');
-    console.log(this.signsArray);
-    console.log(this.numbersArray);
   }
 
   pressClearAction(id) {
-      document.getElementById(`output-screen_${id}`).textContent = '0';
-      this.signsArray = [];
-      this.numbersArray = [];
-      this.oneNumber = "";
-      this.result = 0;
+    document.getElementById(`output-screen_${id}`).textContent = '0';
+    this.signsArray = [];
+    this.numbersArray = [];
+    this.oneNumber = "";
+    this.result = 0;
   }
 
   pressRevertSignAction(id) {
-    if(this.oneNumber > 0) {
+    if (this.oneNumber > 0) {
       this.oneNumber = "-" + this.oneNumber;
     } else {
       this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
@@ -245,7 +222,6 @@ class Calculator {
   }
 
   pressMemoryReadAction(id) {
-    console.log("memory----  " + this.memory);
     this.oneNumber = this.memory;
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
@@ -256,27 +232,24 @@ class Calculator {
   }
 
   pressEqualSignAction(id) {
-    if(this.oneNumber) {
-        this.numbersArray.push(Number(this.oneNumber));
-
-        this.oneNumber = "";
+    if (this.oneNumber) {
+      this.numbersArray.push(Number(this.oneNumber));
+      this.oneNumber = "";
     }
-    if(this.numbersArray.length === 1) {
+
+    if (this.numbersArray.length === 1) {
       this.result = this.numbersArray[0];
       document.getElementById(`output-screen_${id}`).textContent = this.result;
-
-      console.log("Hi!!!!");
-
       this.signsArray = [];
       this.numbersArray = [];
       this.oneNumber = this.result;
       return;
     }
-    if(this.signsArray.length >= this.numbersArray.length) {
+
+    if (this.signsArray.length >= this.numbersArray.length) {
         this.signsArray.length = this.numbersArray.length - 1;
     }
-    console.log(this.signsArray);
-    console.log(this.numbersArray);
+   
     for (let i = 0; i < this.signsArray.length; i++ ) {
       if (this.signsArray[i] === '+') {
         this.result = this.sum(this.numbersArray.shift(), this.numbersArray.shift());
@@ -296,8 +269,8 @@ class Calculator {
       }
     }
 
-    if (this.result.toString().length > 12) { //debugger
-        if(this.result > 9.9999999e18 || this.result < -9.9999999e18) { //bug for negative numbers and numbers with a comma
+    if (this.result.toString().length > 12) {
+        if (this.result > 9.9999999e18 || this.result < -9.9999999e18) { //bug for negative numbers and numbers with a comma
             this.result = "value exceeded";
         } else {
             this.result = Number(this.result).toExponential(7);
@@ -305,9 +278,6 @@ class Calculator {
     }
 
     document.getElementById(`output-screen_${id}`).textContent = this.result;
-
-    console.log("Hi!!!!");
-
     this.signsArray = [];
     this.numbersArray = [];
     this.oneNumber = this.result;
