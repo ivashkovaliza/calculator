@@ -20,18 +20,16 @@ class Calculator {
 
   init() {
     document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
-    document.querySelector(`#table_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
-    document.querySelector(`#table_${this.calculatorId}`).addEventListener('focus', this.createFocusEventListener.bind(this));
+    document.querySelector(`#calculator_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
+    document.querySelector(`#calculator_${this.calculatorId}`).addEventListener('focus', this.createFocusEventListener.bind(this));
     document.querySelector(`#output-screen_${this.calculatorId}`).textContent = "0";
   }
 
   createKeyboardEventListener(event) {
-    console.log("liza-key");
     const validKeys= ['0','1','2','3','4','5','6','7','8','9','.','Enter','/','*','-','+'];
     let chr = event.key;
-    console.log(chr);
+    
     if (validKeys.includes(event.key)) {
-      console.log("true");
       if (chr > '0' && chr < '9') {
         if (this.oneNumber.toString().length < 12) {
           this.pressNumberAction('',this.calculatorId, chr);
@@ -61,14 +59,11 @@ class Calculator {
   }
 
   createFocusEventListener(event) {
-    document.querySelector(`#table_${this.calculatorId}:focus`).addEventListener('keypress', this.createKeyboardEventListener.bind(this));
+    document.querySelector(`#calculator_${this.calculatorId}:focus`).addEventListener('keypress', this.createKeyboardEventListener.bind(this));
   }
 
   createEventListener(event) {
     let target = event.target;
-    console.log(target);
-  
-    console.log(this.oneNumber.length);
   
     if ((target.classList.contains('number')) && this.oneNumber.toString().length < 12) {
       this.pressNumberAction(target, this.calculatorId);
@@ -122,7 +117,6 @@ class Calculator {
   }
 
   pressNumberAction(targetButton, id, targetKeybordButton) {
-    console.log('work');
     if (this.signsArray.length !== this.numbersArray.length) {
         this.signsArray.splice(this.numbersArray.length - 1,this.signsArray.length - this.numbersArray.length);
     }
@@ -139,7 +133,6 @@ class Calculator {
         this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
       }
       this.oneNumber += targetButton.value || targetKeybordButton;
-      console.log('test' + this.oneNumber);
     }    
     
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
@@ -153,7 +146,7 @@ class Calculator {
     if (this.oneNumber.indexOf(".") < 0) {
       this.oneNumber += targetButton.value || targetKeybordButton;
     }
-    console.log(this.oneNumber);
+   
     document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
   }
 
@@ -270,7 +263,7 @@ class Calculator {
     }
 
     if (this.result.toString().length > 12) {
-        if (this.result > 9.9999999e18 || this.result < -9.9999999e18) { //bug for negative numbers and numbers with a comma
+        if (this.result > 9.9999999e18 || this.result < -9.9999999e18) {
             this.result = "value exceeded";
         } else {
             this.result = Number(this.result).toExponential(7);

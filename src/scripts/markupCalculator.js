@@ -1,5 +1,5 @@
 export default (id, memoryLabel) =>
-  `<div id="table_${id}" class="calculator" tabindex="0">
+  `<div id="calculator_${id}" class="calculator" tabindex="0">
     <div class="calculator__body">
       <table class="calculator__content">
         <thead>
