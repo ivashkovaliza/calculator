@@ -1,19 +1,22 @@
-import "../styles/styles.scss";
-import "../index.html";
-import createHtmlForCalculator from "./markupCalculator";
-import randomId from "./randomId"
+import '../styles/styles.scss';
+import '../index.html';
+import createHtmlForCalculator from './markupCalculator';
+import randomId from './randomId'
+
+//constants
+const memoryLabel = 'Memory: ';
+const defaultOutputValue = '0';
 
 class Calculator {
   constructor(elem) {
     this.signsArray = [];
     this.numbersArray = [];
-    this.oneNumber = "";
-    this.result = "";
+    this.oneNumber = '';
+    this.result = '';
     this.memory = 0;
     this.elem = elem;
     this.calculatorId = randomId();
-    this.memoryLabel = "Memory: ";
-    this.htmlForCalculator = createHtmlForCalculator(this.calculatorId, this.memoryLabel);
+    this.htmlForCalculator = createHtmlForCalculator(this.calculatorId, memoryLabel);
 
     this.init();
   }
@@ -22,7 +25,7 @@ class Calculator {
     document.querySelector(this.elem).innerHTML = this.htmlForCalculator;
     document.querySelector(`#calculator_${this.calculatorId}`).addEventListener('click', this.createEventListener.bind(this));
     document.querySelector(`#calculator_${this.calculatorId}`).addEventListener('focus', this.createFocusEventListener.bind(this));
-    document.querySelector(`#output-screen_${this.calculatorId}`).textContent = "0";
+    document.querySelector(`#output-screen_${this.calculatorId}`).textContent = defaultOutputValue;
   }
 
   createKeyboardEventListener(event) {
@@ -32,11 +35,11 @@ class Calculator {
     if (validKeys.includes(event.key)) {
       if (chr > '0' && chr < '9') {
         if (this.oneNumber.toString().length < 12) {
-          this.pressNumberAction('',this.calculatorId, chr);
+          this.pressNumberAction('', chr);
         }
       }      
       if (chr === '.') {
-        this.pressDotAction('',this.calculatorId, chr);
+        this.pressDotAction('', chr);
       }
       if (chr === '+') {
         this.pressPlusAction();
@@ -51,7 +54,7 @@ class Calculator {
         this.pressDivideAction();
       }
       if (chr === '=' || chr ==='Enter') {
-        this.pressEqualSignAction(this.calculatorId);
+        this.pressEqualSignAction();
       }
     } else {
       return false;
@@ -66,7 +69,7 @@ class Calculator {
     let target = event.target;
   
     if ((target.classList.contains('number')) && this.oneNumber.toString().length < 12) {
-      this.pressNumberAction(target, this.calculatorId);
+      this.pressNumberAction(target);
     }
 
     if (target.classList.contains('dot')) {
@@ -88,72 +91,72 @@ class Calculator {
     }
 
     if (target.classList.contains('equal-sign')) {
-        this.pressEqualSignAction(this.calculatorId);
+        this.pressEqualSignAction();
     }
 
     if (target.classList.contains('clear')) {
-        this.pressClearAction(this.calculatorId);
+        this.pressClearAction();
     }
 
     if (target.classList.contains('reversion-sign')) {
-      this.pressRevertSignAction(this.calculatorId);
+      this.pressRevertSignAction();
     }
 
     if (target.classList.contains('memory-plus')) {
-      this.pressMemoryPlusAction(this.calculatorId);
+      this.pressMemoryPlusAction();
     }
 
     if (target.classList.contains('memory-minus')) {
-      this.pressMemoryMinusAction(this.calculatorId);
+      this.pressMemoryMinusAction();
     }
 
     if (target.classList.contains('memory-read')) {
-      this.pressMemoryReadAction(this.calculatorId);
+      this.pressMemoryReadAction();
     }
 
     if (target.classList.contains('memory-clear')) {
-      this.pressMemoryClearAction(this.calculatorId);
+      this.pressMemoryClearAction();
     }
   }
 
-  pressNumberAction(targetButton, id, targetKeybordButton) {
+  pressNumberAction(targetButton, targetKeybordButton) {
     if (this.signsArray.length !== this.numbersArray.length) {
         this.signsArray.splice(this.numbersArray.length - 1,this.signsArray.length - this.numbersArray.length);
     }
     
     if (this.result === this.oneNumber) {
-        this.oneNumber = "";
+        this.oneNumber = '';
         this.result = '';
     } 
     
-    if (this.oneNumber[0] === "0" && this.oneNumber.length === 1 && (targetButton.value === "0" || targetKeybordButton === "0")) {
-      this.oneNumber += ""; 
+    if (this.oneNumber[0] === '0' && this.oneNumber.length === 1 && (targetButton.value === '0' || targetKeybordButton === '0')) {
+      this.oneNumber += ''; 
     } else {
-      if (this.oneNumber[0] === "0" && this.oneNumber.length === 1 && this.oneNumber[1] !== ".") {
+      if (this.oneNumber[0] === '0' && this.oneNumber.length === 1 && this.oneNumber[1] !== '.') {
         this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
       }
       this.oneNumber += targetButton.value || targetKeybordButton;
     }    
     
-    document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
+    document.querySelector(`#output-screen_${this.calculatorId}`).textContent = this.oneNumber;
   }
 
-  pressDotAction(targetButton, id, targetKeybordButton) { 
+  pressDotAction(targetButton, targetKeybordButton) { 
     if (this.result === this.oneNumber) {
-      this.oneNumber = "";
+      this.oneNumber = '';
     }  
     
-    if (this.oneNumber.indexOf(".") < 0) {
+    if (this.oneNumber.indexOf('.') < 0) {
       this.oneNumber += targetButton.value || targetKeybordButton;
     }
    
-    document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
+    document.querySelector(`#output-screen_${this.calculatorId}`).textContent = this.oneNumber;
   }
 
   pressPlusAction() {
     if (this.oneNumber) {
       this.numbersArray.push(Number(this.oneNumber));
-      this.oneNumber = "";
+      this.oneNumber = '';
     }
 
     this.signsArray.push('+');
@@ -162,7 +165,7 @@ class Calculator {
   pressSubtractionAction() {
     if (this.oneNumber) {
       this.numbersArray.push(Number(this.oneNumber));
-      this.oneNumber = "";
+      this.oneNumber = '';
     }
 
     this.signsArray.push('-');
@@ -171,7 +174,7 @@ class Calculator {
   pressMultiplyAction() {
     if (this.oneNumber) {
         this.numbersArray.push(Number(this.oneNumber));
-        this.oneNumber = "";
+        this.oneNumber = '';
     }
     this.signsArray.push('*');
   }
@@ -179,60 +182,60 @@ class Calculator {
   pressDivideAction() {
     if (this.oneNumber) {
         this.numbersArray.push(Number(this.oneNumber));
-        this.oneNumber = "";
+        this.oneNumber = '';
     }
     this.signsArray.push('/');
   }
 
-  pressClearAction(id) {
-    document.getElementById(`output-screen_${id}`).textContent = '0';
+  pressClearAction() {
+    document.getElementById(`output-screen_${this.calculatorId}`).textContent = defaultOutputValue;
     this.signsArray = [];
     this.numbersArray = [];
-    this.oneNumber = "";
+    this.oneNumber = '';
     this.result = 0;
   }
 
-  pressRevertSignAction(id) {
+  pressRevertSignAction() {
     if (this.oneNumber > 0) {
-      this.oneNumber = "-" + this.oneNumber;
+      this.oneNumber = '-' + this.oneNumber;
     } else {
       this.oneNumber = this.oneNumber.slice(1, this.oneNumber.length);
     }
 
-    document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
+    document.querySelector(`#output-screen_${this.calculatorId}`).textContent = this.oneNumber;
   }
 
-  pressMemoryPlusAction(id) {
-    this.memory = this.memory + ( + document.querySelector(`#output-screen_${id}`).textContent); 
-    document.querySelector(`#output-memory_${id}`).textContent = this.memoryLabel + this.memory;
-    this.oneNumber = "";   
+  pressMemoryPlusAction() {
+    this.memory = this.memory + ( + document.querySelector(`#output-screen_${this.calculatorId}`).textContent); 
+    document.querySelector(`#output-memory_${this.calculatorId}`).textContent = memoryLabel + this.memory;
+    this.oneNumber = '';   
   }
 
-  pressMemoryMinusAction(id) {
-    this.memory = this.memory - document.querySelector(`#output-screen_${id}`).textContent; 
-    document.querySelector(`#output-memory_${id}`).textContent = this.memoryLabel + this.memory;
-    this.oneNumber = "";   
+  pressMemoryMinusAction() {
+    this.memory = this.memory - document.querySelector(`#output-screen_${this.calculatorId}`).textContent; 
+    document.querySelector(`#output-memory_${this.calculatorId}`).textContent = memoryLabel + this.memory;
+    this.oneNumber = '';   
   }
 
-  pressMemoryReadAction(id) {
+  pressMemoryReadAction() {
     this.oneNumber = this.memory;
-    document.querySelector(`#output-screen_${id}`).textContent = this.oneNumber;
+    document.querySelector(`#output-screen_${this.calculatorId}`).textContent = this.oneNumber;
   }
 
-  pressMemoryClearAction(id) {
+  pressMemoryClearAction() {
     this.memory = 0;
-    document.querySelector(`#output-memory_${id}`).textContent = this.memoryLabel;
+    document.querySelector(`#output-memory_${this.calculatorId}`).textContent = memoryLabel;
   }
 
-  pressEqualSignAction(id) {
+  pressEqualSignAction() {
     if (this.oneNumber) {
       this.numbersArray.push(Number(this.oneNumber));
-      this.oneNumber = "";
+      this.oneNumber = '';
     }
 
     if (this.numbersArray.length === 1) {
       this.result = this.numbersArray[0];
-      document.getElementById(`output-screen_${id}`).textContent = this.result;
+      document.getElementById(`output-screen_${this.calculatorId}`).textContent = this.result;
       this.signsArray = [];
       this.numbersArray = [];
       this.oneNumber = this.result;
@@ -264,13 +267,13 @@ class Calculator {
 
     if (this.result.toString().length > 12) {
         if (this.result > 9.9999999e18 || this.result < -9.9999999e18) {
-            this.result = "value exceeded";
+            this.result = 'value exceeded';
         } else {
             this.result = Number(this.result).toExponential(7);
         }
     }
 
-    document.getElementById(`output-screen_${id}`).textContent = this.result;
+    document.getElementById(`output-screen_${this.calculatorId}`).textContent = this.result;
     this.signsArray = [];
     this.numbersArray = [];
     this.oneNumber = this.result;
